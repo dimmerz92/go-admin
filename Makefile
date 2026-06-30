@@ -1,32 +1,12 @@
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
+.PHONY: all fmt vet test
 
-# Test binary, built with `go test -c`
-*.test
+all: vet test
 
-# Code coverage profiles and other test artifacts
-*.out
-coverage.*
-*.coverprofile
-profile.cov
+fmt:
+	go fmt ./...
 
-# build artifacts
-tmp/
+vet: fmt
+	go vet ./...
 
-# Dependency directories
-vendor/
-
-# Go workspace file
-go.work
-go.work.sum
-
-# env file
-.env
-
-# Editor/IDE
-.idea/
-.vscode/
+test:
+	go test -race -coverprofile=/tmp/coverage.out ./... && go tool cover -func=/tmp/coverage.out
